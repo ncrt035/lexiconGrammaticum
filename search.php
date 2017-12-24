@@ -15,7 +15,7 @@ require_once 'dbManager.php';
 
 <h2>検索</h2>
 
-<form method="POST" action="search.php">
+<form method="GET" action="search.php">
   <label for="keyword">検索文字列：</label>
   <input id="keyword" type="text" name="keyword" size="15">
   <input type="submit" value="検索">
@@ -23,16 +23,16 @@ require_once 'dbManager.php';
 
 <?php
 //検索時の処理
-if (isset($_POST['keyword']) && !empty($_POST['keyword'])) {
+if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
   try {
     $db = getDb();
 
     $stt = $db->prepare('SELECT * FROM greek WHERE vox LIKE :keyword ORDER BY vox ASC');
-    $stt->bindValue(':keyword', $_POST['keyword'].'%');
+    $stt->bindValue(':keyword', $_GET['keyword'].'%');
 
     $stt->execute();//Execute SQL
-    $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultに検索結果を多次元配列として格納
+    $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultは検索結果の多次元配列
     print_r($result);
 
 
