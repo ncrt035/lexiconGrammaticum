@@ -30,6 +30,9 @@ require_once 'dbManager.php';
 </form>
 
 <?php
+
+const MAX = 5;
+
 //検索時の処理
 if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
@@ -39,6 +42,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     $db = getDb();
 
     $stt = $db->prepare('SELECT * FROM greek WHERE vox LIKE :keyword ORDER BY vox ASC');
+
     switch ($_GET['option']) {
       case 'start':
         $stt->bindValue(':keyword', $keyword.'%');
@@ -55,7 +59,22 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     }
     $stt->execute();//Execute SQL
     $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultは検索結果の多次元配列
+
     print_r($result);
+
+    ?>
+      <ul>
+        <?php
+        $count = 0;
+          do {//結果のうちMODUS個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
+        ?>
+          <li><b><?=Enc($result[$count]['vox'])?></b>: <?=$result[$count]['lemma']?></li>
+          <?php
+            $count++;
+          } while ($count % MAX !== 0);
+          ?>
+      </ul>
+    <?php
 
 
 
