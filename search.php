@@ -66,7 +66,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
       <ul>
         <?php
         $count = 0;
-          do {//結果のうちMODUS個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
+          do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
         ?>
           <li><b><?=Enc($result[$count]['vox'])?></b>: <?=$result[$count]['lemma']?></li>
           <?php
