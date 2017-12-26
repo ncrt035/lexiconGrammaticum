@@ -22,3 +22,5 @@
 `word VARCHAR(31) NOT NULL` 
 `latin VARCHAR(31) DEFAULT NULL`
 `expl VARCHAR(511) NOT NULL`
+
+属格語尾や冠詞用にカラムを分けるべき．

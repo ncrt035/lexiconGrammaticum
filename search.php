@@ -41,7 +41,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
   try {
     $db = getDb();
 
-    $stt = $db->prepare('SELECT * FROM greek WHERE vox LIKE :keyword ORDER BY vox ASC');
+    $stt = $db->prepare('SELECT * FROM lexicon WHERE word LIKE :keyword ORDER BY word ASC');
 
     switch ($_GET['option']) {
       case 'start':
@@ -68,7 +68,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
         $count = 0;
           do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
         ?>
-          <li><b><?=Enc($result[$count]['vox'])?></b>: <?=$result[$count]['lemma']?></li>
+          <li><b><?=Enc($result[$count]['word'])?></b>: <?=$result[$count]['expl']?></li>
           <?php
             $count++;
           } while ($count % MAX !== 0);
