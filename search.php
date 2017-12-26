@@ -68,7 +68,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
         $count = 0;
           do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
         ?>
-          <li><b><?=Enc($result[$count]['word'])?></b>: <?=$result[$count]['expl']?></li>
+          <li><b><?=Enc($result[$count]['word'])?></b>: <i><?=$result[$count]['latin']?></i> <?=$result[$count]['expl']?></li>
           <?php
             $count++;
           } while ($count % MAX !== 0);
