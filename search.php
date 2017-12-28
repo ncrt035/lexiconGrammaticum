@@ -33,17 +33,19 @@ require_once 'dbManager.php';
 
 const MAX = 5;
 
+
 //検索時の処理
 if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
   $keyword = betacode2greek($_GET['keyword']);//replace betacode with greek letters
+  $option = $_GET['option'];
 
   try {
     $db = getDb();
 
     $stt = $db->prepare('SELECT * FROM lexicon WHERE word LIKE :keyword ORDER BY word ASC');
 
-    switch ($_GET['option']) {
+    switch ($option) {
       case 'start':
         $stt->bindValue(':keyword', $keyword.'%');
         break;
@@ -65,17 +67,31 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     ?>
       <ul>
         <?php
-        $count = 0;
-          do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
-        ?>
-          <li><b><?=Enc($result[$count]['word'])?></b>: <i><?=$result[$count]['latin']?></i> <?=$result[$count]['expl']?></li>
-          <?php
-            $count++;
-          } while ($count % MAX !== 0);
+        if (isset($_GET['page'])) {
+          $count = $_GET['page'] * MAX;
+        }
+        else {
+          $count = 0;
+        }
+
+        do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
+          if (empty($result[$count]['word'])){break;}
           ?>
+        <li><b><?=Enc($result[$count]['word'])?></b>: <i><?=$result[$count]['latin']?></i> <?=$result[$count]['expl']?></li>
+        <?php
+          $count++;
+        } while ($count % MAX !== 0);
+        ?>
       </ul>
     <?php
+    for ($i=0; $i <= (count($result) / MAX) ; $i++) {
+      ?>
+      <!--nextリンクをクリックすると次の検索結果を規定件数表示-->
+      <!--生成したページ番号をpaginaという名前のGET情報として渡す-->
+      <a href="search.php?option=<?=$option?>&keyword=<?=$keyword?>&page=<?=$i?>">page<?=$i?></a>
 
+      <?php
+    }
 
 
   } catch (PDOException $e) {
