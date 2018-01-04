@@ -14,4 +14,13 @@
 ### branches
 
 - searchOption: 検索オプション（前方一致・後方一致その他）や検索フィールド選択などの機能を実装するためのブランチ
+- printResult: 結果出力関係の諸機能を実装・調整するためのブランチ
 - editWL: wordList.mdを編集する用のブランチ
+
+### table
+`id INT PRIMARY KEY AUTO_INCREMENT`
+`word VARCHAR(31) NOT NULL` 
+`ew VARCHAR(15) DEFAULT NULL`
+`latin VARCHAR(31) DEFAULT NULL`
+`expl VARCHAR(1023) NOT NULL`
+
