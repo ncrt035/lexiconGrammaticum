@@ -24,3 +24,5 @@
 `latin VARCHAR(31) DEFAULT NULL`
 `expl VARCHAR(1023) NOT NULL`
 
+### CSS
+`<span class="" lang="el">`
