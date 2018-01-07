@@ -84,7 +84,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
         ?>
       </ul>
     <?php
-    for ($i=0; $i <= (count($result) / MAX) ; $i++) {
+    for ($i=0; $i < (count($result) / MAX) ; $i++) {
       ?>
       <!--nextリンクをクリックすると次の検索結果を規定件数表示-->
       <!--生成したページ番号をpaginaという名前のGET情報として渡す-->
