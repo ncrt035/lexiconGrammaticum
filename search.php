@@ -8,6 +8,7 @@ require_once 'dbManager.php';
 <head>
   <meta charset="utf-8">
 <title>LexiconGrammaticumGraeco-Iaponicum</title>
+<link href="main.css" rel="stylesheet" media="all">
 </head>
 <body>
 
