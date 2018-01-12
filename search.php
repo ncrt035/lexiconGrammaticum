@@ -24,6 +24,13 @@ require_once 'dbManager.php';
       <option value="contain">部分一致</option>
     </select>
   </p>
+  <p>
+    <select id="field" name="field">
+      <option value="Word">見出し語</option>
+      <option value="Latin">ラテン語</option>
+      <option value="Expl">語義</option>
+    </select>
+  </p>
 
   <label for="keyword">検索文字列：</label>
   <input id="keyword" type="text" name="keyword" size="15">
@@ -38,17 +45,39 @@ const MAX = 5;
 //検索時の処理
 if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
-  $keyword = betacode2greek($_GET['keyword']);//replace betacode with greek letters
   $option = $_GET['option'];
+  $field = $_GET['field'];
+  if ($field === 'Word') {
+    $keyword = betacode2greek($_GET['keyword']);//replace betacode with greek letters
+  }else {
+    $keyword = $_GET['keyword'];
+  }
+
+  print($field);
+    print($keyword);
 
   try {
     $db = getDb();
 
-    $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword ORDER BY word ASC');
+    switch ($field) {
+      case 'Word':
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword ORDER BY Word ASC');
+        break;
+      case 'Latin':
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Latin LIKE :keyword ORDER BY Word ASC');
+        break;
+      case 'Expl':
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Expl LIKE :keyword ORDER BY Word ASC');
+        break;
+      default:
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword ORDER BY Word ASC');
+        break;
+    }
 
     switch ($option) {
       case 'start':
         $stt->bindValue(':keyword', $keyword.'%');
+        //$stt->bindValue(':field', $field);
         break;
       case 'end':
         $stt->bindValue(':keyword', '%'.$keyword);
@@ -60,6 +89,8 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
         $stt->bindValue(':keyword', $keyword.'%');
         break;
     }
+
+
     $stt->execute();//Execute SQL
     $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultは検索結果の多次元配列
 
@@ -88,7 +119,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
       ?>
       <!--nextリンクをクリックすると次の検索結果を規定件数表示-->
       <!--生成したページ番号をpaginaという名前のGET情報として渡す-->
-      <a href="search.php?option=<?=$option?>&keyword=<?=$keyword?>&page=<?=$i?>">page<?=$i?></a>
+      <a href="search.php?option=<?=$option?>&field=<?=$field?>&keyword=<?=$keyword?>&page=<?=$i?>">page<?=$i?></a>
 
       <?php
     }
