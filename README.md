@@ -20,7 +20,9 @@
 ### table
 `id INT PRIMARY KEY AUTO_INCREMENT`
 `word VARCHAR(31) NOT NULL` 
+`ew VARCHAR(15) DEFAULT NULL`
 `latin VARCHAR(31) DEFAULT NULL`
-`expl VARCHAR(511) NOT NULL`
+`expl VARCHAR(1023) NOT NULL`
 
-属格語尾や冠詞用にカラムを分けるべき．
+### CSS
+`<span class="" lang="el">`
