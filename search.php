@@ -63,7 +63,6 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     $stt->execute();//Execute SQL
     $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultは検索結果の多次元配列
 
-    print_r($result);
 
     ?>
       <ul>
