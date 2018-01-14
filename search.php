@@ -39,7 +39,7 @@ require_once 'dbManager.php';
 
 <?php
 
-const MAX = 5;
+const MAX = 10;
 
 
 //検索時の処理
@@ -61,16 +61,16 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
     switch ($field) {
       case 'Word':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl != "?" ORDER BY Word ASC');
         break;
       case 'Latin':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Latin LIKE :keyword ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Latin LIKE :keyword AND Expl != "?" ORDER BY Word ASC');
         break;
       case 'Expl':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Expl LIKE :keyword ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Expl LIKE :keyword AND Expl != "?" ORDER BY Word ASC');
         break;
       default:
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl != "?" ORDER BY Word ASC');
         break;
     }
 
@@ -108,7 +108,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
         do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
           if (empty($result[$count]['Word'])){break;}
           ?>
-        <li><b><?=Enc($result[$count]['Word'])?></b>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
+        <li><b><?=Enc($result[$count]['Word'])?></b> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
         <?php
           $count++;
         } while ($count % MAX !== 0);
