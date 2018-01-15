@@ -61,16 +61,16 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
     switch ($field) {
       case 'Word':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl != "?" ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       case 'Latin':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Latin LIKE :keyword AND Expl != "?" ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Latin LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       case 'Expl':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Expl LIKE :keyword AND Expl != "?" ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Expl LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       default:
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl != "?" ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
     }
 
