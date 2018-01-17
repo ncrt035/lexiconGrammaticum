@@ -22,6 +22,14 @@ require_once 'dbManager.php';
       <option value="start">前方一致</option>
       <option value="end">後方一致</option>
       <option value="contain">部分一致</option>
+      <option value="exact">完全一致</option>
+    </select>
+  </p>
+  <p>
+    <select id="field" name="field">
+      <option value="Word">見出し語</option>
+      <option value="Latin">ラテン語</option>
+      <option value="Expl">語義</option>
     </select>
   </p>
 
@@ -32,19 +40,38 @@ require_once 'dbManager.php';
 
 <?php
 
-const MAX = 5;
+const MAX = 10;
 
 
 //検索時の処理
 if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
-  $keyword = betacode2greek($_GET['keyword']);//replace betacode with greek letters
   $option = $_GET['option'];
+  $field = $_GET['field'];
+  if ($field === 'Word') {
+    $keyword = betacode2greek($_GET['keyword']);//replace betacode with greek letters
+  }else {
+    $keyword = $_GET['keyword'];
+  }
+
 
   try {
     $db = getDb();
 
-    $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword ORDER BY word ASC');
+    switch ($field) {
+      case 'Word':
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        break;
+      case 'Latin':
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Latin LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        break;
+      case 'Expl':
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Expl LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        break;
+      default:
+        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        break;
+    }
 
     switch ($option) {
       case 'start':
@@ -56,10 +83,15 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
       case 'contain':
         $stt->bindValue(':keyword', '%'.$keyword.'%');
         break;
+      case 'exact':
+        $stt->bindValue(':keyword', $keyword);
+        break;
       default://デフォルトは前方一致
         $stt->bindValue(':keyword', $keyword.'%');
         break;
     }
+
+
     $stt->execute();//Execute SQL
     $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultは検索結果の多次元配列
 
@@ -77,7 +109,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
         do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
           if (empty($result[$count]['Word'])){break;}
           ?>
-        <li><b><?=Enc($result[$count]['Word'])?></b>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
+        <li><b><?=Enc($result[$count]['Word'])?></b> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
         <?php
           $count++;
         } while ($count % MAX !== 0);
@@ -88,7 +120,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
       ?>
       <!--nextリンクをクリックすると次の検索結果を規定件数表示-->
       <!--生成したページ番号をpaginaという名前のGET情報として渡す-->
-      <a href="search.php?option=<?=$option?>&keyword=<?=$keyword?>&page=<?=$i?>">page<?=$i?></a>
+      <a href="search.php?option=<?=$option?>&field=<?=$field?>&keyword=<?=$keyword?>&page=<?=$i?>">page<?=$i?></a>
 
       <?php
     }
