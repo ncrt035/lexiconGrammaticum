@@ -22,6 +22,7 @@ require_once 'dbManager.php';
       <option value="start">前方一致</option>
       <option value="end">後方一致</option>
       <option value="contain">部分一致</option>
+      <option value="exact">完全一致</option>
     </select>
   </p>
   <p>
@@ -53,8 +54,6 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     $keyword = $_GET['keyword'];
   }
 
-  print($field);
-    print($keyword);
 
   try {
     $db = getDb();
@@ -77,13 +76,15 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     switch ($option) {
       case 'start':
         $stt->bindValue(':keyword', $keyword.'%');
-        //$stt->bindValue(':field', $field);
         break;
       case 'end':
         $stt->bindValue(':keyword', '%'.$keyword);
         break;
       case 'contain':
         $stt->bindValue(':keyword', '%'.$keyword.'%');
+        break;
+      case 'exact':
+        $stt->bindValue(':keyword', $keyword);
         break;
       default://デフォルトは前方一致
         $stt->bindValue(':keyword', $keyword.'%');
