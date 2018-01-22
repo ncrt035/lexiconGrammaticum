@@ -75,19 +75,19 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
     switch ($option) {
       case 'start':
-        $stt->bindValue(':keyword', $keyword.'%');
+        $stt->bindValue(':keyword', $keyword.'%', PDO::PARAM_STR);
         break;
       case 'end':
-        $stt->bindValue(':keyword', '%'.$keyword);
+        $stt->bindValue(':keyword', '%'.$keyword, PDO::PARAM_STR);
         break;
       case 'contain':
-        $stt->bindValue(':keyword', '%'.$keyword.'%');
+        $stt->bindValue(':keyword', '%'.$keyword.'%', PDO::PARAM_STR);
         break;
       case 'exact':
-        $stt->bindValue(':keyword', $keyword);
+        $stt->bindValue(':keyword', $keyword, PDO::PARAM_STR);
         break;
       default://デフォルトは前方一致
-        $stt->bindValue(':keyword', $keyword.'%');
+        $stt->bindValue(':keyword', $keyword.'%', PDO::PARAM_STR);
         break;
     }
 
