@@ -1,5 +1,5 @@
 <?php
-require_once 'encode.php';
+require_once 'validator.php';
 require_once 'betacode2greek.php';
 require_once 'dbManager.php';
 ?>
@@ -42,16 +42,22 @@ require_once 'dbManager.php';
 
 const MAX = 10;
 
+$vld = new checkInput();//入力値検証
 
-//検索時の処理
+$vld->requiredCheck($_GET['keyword'], '検索文字列');
+$vld->arrayCheck($_GET['option'], '検索オプション', ['start','end','contain','exact']);
+$vld->arrayCheck($_GET['field'], '検索領域', ['Word','Latin','Expl']);
+
+$vld();//invoke
+
 if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
-  $option = $_GET['option'];
-  $field = $_GET['field'];
+  $option = htmlEnc($_GET['option']);
+  $field = htmlEnc($_GET['field']);
   if ($field === 'Word') {
-    $keyword = betacode2greek($_GET['keyword']);//replace betacode with greek letters
+    $keyword = htmlEnc(betacode2greek($_GET['keyword']));//replace betacode with greek letters
   }else {
-    $keyword = $_GET['keyword'];
+    $keyword = htmlEnc($_GET['keyword']);
   }
 
 
@@ -97,6 +103,9 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
 
     ?>
+    
+    <h3>検索結果：<?=$keyword?></h3>
+
       <ul>
         <?php
         if (isset($_GET['page'])) {
@@ -109,7 +118,7 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
         do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
           if (empty($result[$count]['Word'])){break;}
           ?>
-        <li><b><?=Enc($result[$count]['Word'])?></b> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
+        <li><b><?=$result[$count]['Word']?></b> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
         <?php
           $count++;
         } while ($count % MAX !== 0);
@@ -131,6 +140,8 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
   }
 
 
+}else {
+  print '検索文字列を入力してください．';
 }
 ?>
 
