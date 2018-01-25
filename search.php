@@ -33,31 +33,35 @@ require_once 'dbManager.php';
     </select>
   </p>
 
+  <p>
   <label for="keyword">検索文字列：</label>
   <input id="keyword" type="text" name="keyword" size="15">
+    <input type="hidden" id="page" name="page" value="0">
   <input type="submit" value="検索">
+  </p>
 </form>
 
 <?php
 
-const MAX = 10;
+  const MAX = 10;
 
-$vld = new checkInput();//入力値検証
+  $vld = new checkInput();//入力値検証
 
-$vld->requiredCheck($_GET['keyword'], '検索文字列');
-$vld->arrayCheck($_GET['option'], '検索オプション', ['start','end','contain','exact']);
-$vld->arrayCheck($_GET['field'], '検索領域', ['Word','Latin','Expl']);
+  $vld->requiredCheck($_GET['keyword'], '検索文字列');
+  $vld->arrayCheck($_GET['option'], '検索オプション', ['start','end','contain','exact']);
+  $vld->arrayCheck($_GET['field'], '検索領域', ['Word','Latin','Expl']);
+  $vld->pageCheck($_GET['page'], 'ページ数');
 
-$vld();//invoke
+  $vld();//invoke
 
-if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
 
   $option = htmlEnc($_GET['option']);
   $field = htmlEnc($_GET['field']);
+  $page = htmlEnc($_GET['page']);
   if ($field === 'Word') {
     $keyword = htmlEnc(betacode2greek($_GET['keyword']));//replace betacode with greek letters
-  }else {
-    $keyword = htmlEnc($_GET['keyword']);
+    }else {
+      $keyword = htmlEnc($_GET['keyword']);
   }
 
 
@@ -102,36 +106,40 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultは検索結果の多次元配列
 
 
-    ?>
-    
-    <h3>検索結果：<?=$keyword?></h3>
+    $total = count($result);
 
-      <ul>
-        <?php
-        if (isset($_GET['page'])) {
-          $count = $_GET['page'] * MAX;
-        }
-        else {
-          $count = 0;
-        }
+      if ($page < ($total / MAX)) {//if $page is sound
+        $count = $page * MAX;
+      }
+      else {
+        print 'ページ入力が不正です．';
+        die();
+      }
 
-        do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
-          if (empty($result[$count]['Word'])){break;}
-          ?>
-        <li><b><?=$result[$count]['Word']?></b> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
-        <?php
-          $count++;
-        } while ($count % MAX !== 0);
-        ?>
-      </ul>
+?>
+
+<h3>検索結果：<?=$keyword?></h3>
+
+  <ul>
     <?php
-    for ($i=0; $i < (count($result) / MAX) ; $i++) {
-      ?>
-      <!--nextリンクをクリックすると次の検索結果を規定件数表示-->
-      <!--生成したページ番号をpaginaという名前のGET情報として渡す-->
-      <a href="search.php?option=<?=$option?>&field=<?=$field?>&keyword=<?=$keyword?>&page=<?=$i?>">page<?=$i?></a>
 
-      <?php
+      do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
+        if (empty($result[$count]['Word'])){break;}
+    ?>
+      <li><b><?=$result[$count]['Word']?></b> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
+    <?php
+        $count++;
+      } while ($count % MAX !== 0);
+    ?>
+  </ul>
+  <?php
+    for ($i=0; $i < ($total / MAX) ; $i++) {
+  ?>
+    <!--リンクをクリックすると次の検索結果を規定件数(=MAX)表示-->
+    <!--生成したページ番号をpageという名前のGET情報として渡す-->
+    <a href="search.php?option=<?=$option?>&field=<?=$field?>&keyword=<?=$keyword?>&page=<?=$i?>">page<?=$i+1?></a>
+
+  <?php
     }
 
 
@@ -140,9 +148,6 @@ if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
   }
 
 
-}else {
-  print '検索文字列を入力してください．';
-}
 ?>
 
 </body>
