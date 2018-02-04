@@ -12,7 +12,18 @@ require_once 'dbManager.php';
 </head>
 <body>
 
-<h1>Lexicon Grammaticum Graeco-Iaponicum ギリシア語文法用語辞典</h1>
+  <div id="title">
+    <h1>Lexicon Grammaticum Graeco-Iaponicum ギリシア語文法用語辞典</h1>
+    <div id="menu">
+      <a class="tab" href="search.php">Search</a>
+      <a class="tab" href="abbrev.html">Abbreviations</a>
+      <a class="tab" href="#">About</a>
+
+      <div class="cl"></div>
+    </div>
+  </div>
+
+<DIV id="wrap">
 
 <h2>検索（Search）</h2>
 
@@ -137,15 +148,22 @@ require_once 'dbManager.php';
       } while ($count % MAX !== 0);
     ?>
   </ul>
+
+  <hr>
+
+  <div class="pages">
   <?php
     for ($i=0; $i < ($total / MAX) ; $i++) {
   ?>
     <!--リンクをクリックすると次の検索結果を規定件数(=MAX)表示-->
     <!--生成したページ番号をpageという名前のGET情報として渡す-->
-    <a href="search.php?opt=<?=$option?>&fld=<?=$field?>&kw=<?=$keyword?>&page=<?=$i?>">page<?=$i+1?></a>
+    <a href="search.php?opt=<?=$option?>&fld=<?=$field?>&kw=<?=$keyword?>&page=<?=$i?>"><?=$i+1?></a>
 
   <?php
     }
+    ?>
+  </div>
+    <?php
 
 
   } catch (PDOException $e) {
@@ -155,5 +173,6 @@ require_once 'dbManager.php';
 
 ?>
 
+</DIV>
 </body>
 </html>
