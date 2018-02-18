@@ -62,10 +62,10 @@ require_once 'dbManager.php';
 
   $vld = new checkInput();//入力値検証
 
-  $vld->requiredCheck($_GET['kw'], '検索文字列');
-  $vld->arrayCheck($_GET['opt'], '検索オプション', ['start','end','contain','exact']);
-  $vld->arrayCheck($_GET['fld'], '検索領域', ['Word','Latin','Expl']);
-  $vld->pageCheck($_GET['page'], 'ページ数');
+  $vld->requiredCheck($_GET['kw'], '検索文字列', 'keyword');
+  $vld->arrayCheck($_GET['opt'], '検索オプション', 'option', ['start','end','contain','exact']);
+  $vld->arrayCheck($_GET['fld'], '検索領域', 'field', ['Word','Latin','Expl']);
+  $vld->pageCheck($_GET['page'], 'ページ数', 'page');
 
   $vld();//invoke
 
