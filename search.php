@@ -141,7 +141,7 @@ require_once 'dbManager.php';
         if (empty($result[$count]['Word'])){break;}
     ?>
 
-      <li><b><?=$result[$count]['Word']?></b> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
+      <li><span class="lemma"><?=$result[$count]['Word']?></span> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
 
     <?php
         $count++;
