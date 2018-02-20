@@ -22,7 +22,7 @@ class checkInput {
   private function encodingCheck(array $data){
     foreach ($data as $key => $value) {
       if (!mb_check_encoding($value)) {
-        $this->_errors[] = "{$key}の文字エンコードが不正です．";
+        $this->_errors[] = "{$key}の文字エンコードが不正です．Encoding of {$key} is incorrect.";
       }
     }
   }
@@ -30,28 +30,28 @@ class checkInput {
   private function nullCheck(array $data){
     foreach ($data as $key => $value) {
       if (preg_match('/\0/', $value)) {
-        $this->_errors[] = "{$key}は不正な文字を含んでいます．";
+        $this->_errors[] = "{$key}は不正な文字を含んでいます．{$key} has incorrect character.";
       }
     }
   }
 
-  public function requiredCheck(string $value, string $name){
+  public function requiredCheck(string $value, string $name, string $eng){
     if (trim($value) === '') {
-      $this->_errors[] = "{$name}を入力してください．";
+      $this->_errors[] = "{$name}を入力してください．enter correct {$eng}.";
     }
   }
 
-  public function arrayCheck(string $value, string $name, array $data){
+  public function arrayCheck(string $value, string $name, string $eng, array $data){
   if (!in_array($value, $data)) {
       $msg = implode(',', $data);
-      $this->_errors[] = "{$name}の入力が不正です．";
+      $this->_errors[] = "{$name}の入力が不正です．{$eng} is incorrect.";
     }
   }
 
-  public function pageCheck(string $value, string $name) {
+  public function pageCheck(string $value, string $name, string $eng) {
     if (trim($value) !== '') {
       if (!ctype_digit($value)) {
-        $this->_errors[] = "{$name}が不正です．";
+        $this->_errors[] = "{$name}が不正です．{$eng} is incorrect.";
       }
     }
   }

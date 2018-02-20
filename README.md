@@ -1,28 +1,27 @@
 # Lexicon Grammaticum Graeco-Iaponicum
 
-## Praefatio
-[これ](https://www.stromateis.info/zib/gramm_term.html)を増補するのが当初の目的．
+## What is This?
+**A Lexicon of Ancient Greek Grammatical/Philological Terms** (by PHP and MySQL). This lexicon has its origin in [a word list of Greek grammatical terms](https://www.stromateis.info/zib/gramm_term.html). 
 
-## Vocabula
-語彙の選択範囲はDickey, E.(2007), *Ancient Greek Scholarship*, Oxford University Pressの拾っているものを最小限として，
 
-- Bécares Botas, V.(1985), *Diccionario de terminología gramatical griega*, Salamanca: Ediciones Universidad de Salamanca.
-- Montanari, F.(2013, 3a ed.), *Vocabolario della lingua greca*, Torino: Loescher.
+Based on mainly Dickey's glossary (cf. Dickey 2007: 217-265), it aims to cover all the grammatical/philological terms.
 
-あたりを適宜採り入れたい．
+## Usage
+- Import `wordList.csv` into your SQL Server (make some modifications, if necessary).
+- Open `search.php` and enter keyword.
 
-### branches
+## How to Contribute
+Comments and corrections are welcome! Please leave a comment or create an issue, if you have any suggestion. 
 
-- searchOption: 検索オプション（前方一致・後方一致その他）や検索フィールド選択などの機能を実装するためのブランチ
-- printResult: 結果出力関係の諸機能を実装・調整するためのブランチ
-- editWL: wordList.mdを編集する用のブランチ
+## Selected Bibliography
 
-### table
-`id INT PRIMARY KEY AUTO_INCREMENT`
-`word VARCHAR(31) NOT NULL` 
-`ew VARCHAR(15) DEFAULT NULL`
-`latin VARCHAR(31) DEFAULT NULL`
-`expl VARCHAR(1023) NOT NULL`
+- Bécares Botas, V. (1985), *Diccionario de terminología gramatical griega*, Salamanca: Ediciones Universidad de Salamanca.
+- Dickey, E. (2007), *Ancient Greek Scholarship*, Oxford University Press.
+- *DGE* = [*Diccionario Griego-Español*](http://dge.cchs.csic.es).
+- *LSJ* = *A Greek-English Lexicon,* compiled by Liddell, H.G., and Scott, R., revised and augmented throughout by Jones, H.S., Oxford: Clarendon Press, (9th ed. 1940, new supplement added 1996).
+- Montanari, F. (2013, 3a ed.), *Vocabolario della lingua greca*, Torino: Loescher.
+- Schad, S. (2007), *A Lexicon of Latin Grammatical Terminology,* Pisa/Roma: Fabrizio Serra.
 
-### CSS
-`<span class="" lang="el">`
+
+
+

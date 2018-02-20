@@ -12,7 +12,18 @@ require_once 'dbManager.php';
 </head>
 <body>
 
-<h1>Lexicon Grammaticum Graeco-Iaponicum ギリシア語文法用語辞典</h1>
+  <div id="title">
+    <h1>Lexicon Grammaticum Graeco-Iaponicum ギリシア語文法用語辞典</h1>
+    <div id="menu">
+      <a class="tab" href="search.php">Search</a>
+      <a class="tab" href="abbrev.html">Abbreviations</a>
+      <a class="tab" href="#">About</a>
+
+      <div class="cl"></div>
+    </div>
+  </div>
+
+<DIV id="wrap">
 
 <h2>検索（Search）</h2>
 
@@ -51,10 +62,10 @@ require_once 'dbManager.php';
 
   $vld = new checkInput();//入力値検証
 
-  $vld->requiredCheck($_GET['kw'], '検索文字列');
-  $vld->arrayCheck($_GET['opt'], '検索オプション', ['start','end','contain','exact']);
-  $vld->arrayCheck($_GET['fld'], '検索領域', ['Word','Latin','Expl']);
-  $vld->pageCheck($_GET['page'], 'ページ数');
+  $vld->requiredCheck($_GET['kw'], '検索文字列', 'keyword');
+  $vld->arrayCheck($_GET['opt'], '検索オプション', 'option', ['start','end','contain','exact']);
+  $vld->arrayCheck($_GET['fld'], '検索領域', 'field', ['Word','Latin','Expl']);
+  $vld->pageCheck($_GET['page'], 'ページ数', 'page');
 
   $vld();//invoke
 
@@ -130,22 +141,29 @@ require_once 'dbManager.php';
         if (empty($result[$count]['Word'])){break;}
     ?>
 
-      <li><b><?=$result[$count]['Word']?></b> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
+      <li><span class="lemma"><?=$result[$count]['Word']?></span> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
 
     <?php
         $count++;
       } while ($count % MAX !== 0);
     ?>
   </ul>
+
+  <hr>
+
+  <div class="pages">
   <?php
     for ($i=0; $i < ($total / MAX) ; $i++) {
   ?>
     <!--リンクをクリックすると次の検索結果を規定件数(=MAX)表示-->
     <!--生成したページ番号をpageという名前のGET情報として渡す-->
-    <a href="search.php?opt=<?=$option?>&fld=<?=$field?>&kw=<?=$keyword?>&page=<?=$i?>">page<?=$i+1?></a>
+    <a href="search.php?opt=<?=$option?>&fld=<?=$field?>&kw=<?=$keyword?>&page=<?=$i?>"><?=$i+1?></a>
 
   <?php
     }
+    ?>
+  </div>
+    <?php
 
 
   } catch (PDOException $e) {
@@ -155,5 +173,6 @@ require_once 'dbManager.php';
 
 ?>
 
+</DIV>
 </body>
 </html>
