@@ -17,7 +17,7 @@ require_once 'dbManager.php';
     <div id="menu">
       <a class="tab" href="search.php">Search</a>
       <a class="tab" href="abbrev.html">Abbreviations</a>
-      <a class="tab" href="#">About</a>
+      <a class="tab" href="about.html">About</a>
 
       <div class="cl"></div>
     </div>
