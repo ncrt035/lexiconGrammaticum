@@ -136,8 +136,8 @@ require_once 'dbManager.php';
 
   <ul>
     <?php
-
-      do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
+    //結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
+      do {
         if (empty($result[$count]['Word'])){break;}
     ?>
 
@@ -153,10 +153,10 @@ require_once 'dbManager.php';
 
   <div class="pages">
   <?php
+  //リンクをクリックすると次の検索結果を規定件数(=MAX)表示
+  //生成したページ番号をpageという名前のGET情報として渡す
     for ($i=0; $i < ($total / MAX) ; $i++) {
   ?>
-    <!--リンクをクリックすると次の検索結果を規定件数(=MAX)表示-->
-    <!--生成したページ番号をpageという名前のGET情報として渡す-->
     <a href="search.php?opt=<?=$option?>&fld=<?=$field?>&kw=<?=$keyword?>&page=<?=$i?>"><?=$i+1?></a>
 
   <?php
