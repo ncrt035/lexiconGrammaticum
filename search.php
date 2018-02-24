@@ -85,16 +85,16 @@ require_once 'dbManager.php';
 
     switch ($field) {
       case 'Word':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       case 'Latin':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Latin LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon WHERE Latin LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       case 'Expl':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Expl LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon WHERE Expl LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       default:
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
     }
 
