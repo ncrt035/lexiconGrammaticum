@@ -1,7 +1,7 @@
 <?php
 require_once 'validator.php';
 require_once 'betacode2greek.php';
-require_once 'dbManager.php';
+require_once 'cfg/dbManager.php';
 ?>
 <!DOCTYPE html>
 <html>
