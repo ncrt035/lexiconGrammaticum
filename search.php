@@ -7,7 +7,13 @@ require_once 'cfg/dbManager.php';
 <html>
 <head>
   <meta charset="utf-8">
-<title>LexiconGrammaticumGraeco-Iaponicum</title>
+  <meta content="Lexicon Grammaticum Graeco-Iaponicum ギリシア語文法用語辞典" property="og:description">
+  <meta content="https://lggi.stromateis.info/search.php" property="og:url">
+  <meta content="Lexicon Grammaticum Graeco-Iaponicum" property="og:site_name">
+  <meta content="Search | Lexicon Grammaticum Graeco-Iaponicum" property="og:title">
+  <meta content="https://lggi.stromateis.info/img/card01.jpg" property="og:image">
+  <meta content="summary" property="twitter:card">
+<title>Search | Lexicon Grammaticum Graeco-Iaponicum</title>
 <link href="main.css" rel="stylesheet" media="all">
 </head>
 <body>
