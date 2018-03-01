@@ -5,8 +5,7 @@
 #######################*/
 
 body{
-	font-family: "Times New Roman", "Yu Mincho Medium", "YuMincho Medium", serif;
-	/*background-color: #4D5D53;*/
+	font-family: "Times New Roman", "Yu Mincho Medium", "YuMincho Medium", "Meiryo", "MS Gothic", sans-serif;
 }
 
 #wrap{
@@ -106,11 +105,6 @@ span.lemma{
 span.ol{
 	text-decoration: overline;
 }
-/*
-span.lemma{
-	font-family:"New Athena Unicode", serif;
-	font-weight: bold;
-}*/
 
 span.voice{
 	font-family: sans-serif;
