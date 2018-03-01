@@ -1,13 +1,19 @@
 <?php
 require_once 'validator.php';
 require_once 'betacode2greek.php';
-require_once 'dbManager.php';
+require_once 'cfg/dbManager.php';
 ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-<title>LexiconGrammaticumGraeco-Iaponicum</title>
+  <meta content="Lexicon Grammaticum Graeco-Iaponicum ギリシア語文法用語辞典" property="og:description">
+  <meta content="https://lggi.stromateis.info/search.php" property="og:url">
+  <meta content="Lexicon Grammaticum Graeco-Iaponicum" property="og:site_name">
+  <meta content="Search | Lexicon Grammaticum Graeco-Iaponicum" property="og:title">
+  <meta content="https://lggi.stromateis.info/img/card01.jpg" property="og:image">
+  <meta content="summary" property="twitter:card">
+<title>Search | Lexicon Grammaticum Graeco-Iaponicum</title>
 <link href="main.css" rel="stylesheet" media="all">
 </head>
 <body>
@@ -17,7 +23,7 @@ require_once 'dbManager.php';
     <div id="menu">
       <a class="tab" href="search.php">Search</a>
       <a class="tab" href="abbrev.html">Abbreviations</a>
-      <a class="tab" href="#">About</a>
+      <a class="tab" href="about.html">About</a>
 
       <div class="cl"></div>
     </div>
@@ -85,16 +91,16 @@ require_once 'dbManager.php';
 
     switch ($field) {
       case 'Word':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       case 'Latin':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Latin LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon WHERE Latin LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       case 'Expl':
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Expl LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon WHERE Expl LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
       default:
-        $stt = $db->prepare('SELECT * FROM lexicon2 WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+        $stt = $db->prepare('SELECT * FROM lexicon WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
         break;
     }
 
@@ -136,12 +142,12 @@ require_once 'dbManager.php';
 
   <ul>
     <?php
-
-      do {//結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
+    //結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
+      do {
         if (empty($result[$count]['Word'])){break;}
     ?>
 
-      <li><span class="lemma"><?=$result[$count]['Word']?></span> <?=$result[$count]['Ew']?>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
+      <li><span class="lemma" lang="el"><?=$result[$count]['Word']?></span> <span class="gr" lang="el"><?=$result[$count]['Ew']?></span>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
 
     <?php
         $count++;
@@ -153,10 +159,10 @@ require_once 'dbManager.php';
 
   <div class="pages">
   <?php
+  //リンクをクリックすると次の検索結果を規定件数(=MAX)表示
+  //生成したページ番号をpageという名前のGET情報として渡す
     for ($i=0; $i < ($total / MAX) ; $i++) {
   ?>
-    <!--リンクをクリックすると次の検索結果を規定件数(=MAX)表示-->
-    <!--生成したページ番号をpageという名前のGET情報として渡す-->
     <a href="search.php?opt=<?=$option?>&fld=<?=$field?>&kw=<?=$keyword?>&page=<?=$i?>"><?=$i+1?></a>
 
   <?php
