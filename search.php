@@ -67,115 +67,116 @@ require_once 'cfg/dbManager.php';
 
   const MAX = 10;
 
-  $vld = new checkInput();//入力値検証
+  if(!empty($_GET)){//if $_GET is not empty
 
-  $vld->requiredCheck($_GET['kw'], '検索文字列', 'keyword');
-  $vld->arrayCheck($_GET['opt'], '検索オプション', 'option', ['start','end','contain','exact']);
-  $vld->arrayCheck($_GET['fld'], '検索領域', 'field', ['Word','Latin','Expl']);
-  $vld->pageCheck($_GET['page'], 'ページ数', 'page');
+    $vld = new checkInput();//入力値検証
 
-  $vld();//invoke
+    $vld->requiredCheck($_GET['kw'], '検索文字列', 'keyword');
+    $vld->arrayCheck($_GET['opt'], '検索オプション', 'option', ['start','end','contain','exact']);
+    $vld->arrayCheck($_GET['fld'], '検索領域', 'field', ['Word','Latin','Expl']);
+    $vld->pageCheck($_GET['page'], 'ページ数', 'page');
 
-
-  $option = htmlEnc($_GET['opt']);
-  $field = htmlEnc($_GET['fld']);
-  $page = htmlEnc($_GET['page']);
-  if ($field === 'Word') {
-    $keyword = htmlEnc(betacode2greek($_GET['kw']));//replace betacode with greek letters
-    }else {
-      $keyword = htmlEnc($_GET['kw']);
-  }
+    $vld();//invoke
 
 
-  try {
-    $db = getDb();
-
-    switch ($field) {
-      case 'Word':
-        $stt = $db->prepare('SELECT * FROM lexicon WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
-        break;
-      case 'Latin':
-        $stt = $db->prepare('SELECT * FROM lexicon WHERE Latin LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
-        break;
-      case 'Expl':
-        $stt = $db->prepare('SELECT * FROM lexicon WHERE Expl LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
-        break;
-      default:
-        $stt = $db->prepare('SELECT * FROM lexicon WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
-        break;
+    $option = htmlEnc($_GET['opt']);
+    $field = htmlEnc($_GET['fld']);
+    $page = htmlEnc($_GET['page']);
+    if ($field === 'Word') {
+      $keyword = htmlEnc(betacode2greek($_GET['kw']));//replace betacode with greek letters
+      }else {
+        $keyword = htmlEnc($_GET['kw']);
     }
 
-    switch ($option) {
-      case 'start':
-        $stt->bindValue(':keyword', $keyword.'%', PDO::PARAM_STR);
-        break;
-      case 'end':
-        $stt->bindValue(':keyword', '%'.$keyword, PDO::PARAM_STR);
-        break;
-      case 'contain':
-        $stt->bindValue(':keyword', '%'.$keyword.'%', PDO::PARAM_STR);
-        break;
-      case 'exact':
-        $stt->bindValue(':keyword', $keyword, PDO::PARAM_STR);
-        break;
-      default://デフォルトは前方一致
-        $stt->bindValue(':keyword', $keyword.'%', PDO::PARAM_STR);
-        break;
-    }
+    try {
+      $db = getDb();
+
+      switch ($field) {
+        case 'Word':
+          $stt = $db->prepare('SELECT * FROM lexicon WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+          break;
+        case 'Latin':
+          $stt = $db->prepare('SELECT * FROM lexicon WHERE Latin LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+          break;
+        case 'Expl':
+          $stt = $db->prepare('SELECT * FROM lexicon WHERE Expl LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+          break;
+        default:
+          $stt = $db->prepare('SELECT * FROM lexicon WHERE Word LIKE :keyword AND Expl NOT IN ("?", "") ORDER BY Word ASC');
+          break;
+      }
+
+      switch ($option) {
+        case 'start':
+          $stt->bindValue(':keyword', $keyword.'%', PDO::PARAM_STR);
+          break;
+        case 'end':
+          $stt->bindValue(':keyword', '%'.$keyword, PDO::PARAM_STR);
+          break;
+        case 'contain':
+          $stt->bindValue(':keyword', '%'.$keyword.'%', PDO::PARAM_STR);
+          break;
+        case 'exact':
+          $stt->bindValue(':keyword', $keyword, PDO::PARAM_STR);
+          break;
+        default://デフォルトは前方一致
+          $stt->bindValue(':keyword', $keyword.'%', PDO::PARAM_STR);
+          break;
+      }
 
 
-    $stt->execute();//Execute SQL
-    $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultは検索結果の多次元配列
+      $stt->execute();//Execute SQL
+      $result = $stt->fetchAll(PDO::FETCH_ASSOC);//$resultは検索結果の多次元配列
 
 
-    $total = count($result);
+      $total = count($result);
 
-    if ($page <= ($total / MAX)) {//check whether $page is sound or not
-        $count = $page * MAX;
-    }else {
-        print 'ページ数が不正です．';
-        die();
-    }
+      if ($page <= ($total / MAX)) {//check whether $page is sound or not
+          $count = $page * MAX;
+      }else {
+          print 'ページ数が不正です．';
+          die();
+      }
 
 ?>
 
 <h3>検索結果：<?=$keyword?> <?=$total?>件ヒット</h3>
 
   <ul>
-    <?php
+<?php
     //結果のうちMAX個を出力 剰余で出力回数を制御するので条件を後置判定するdo...while文を用いる
       do {
         if (empty($result[$count]['Word'])){break;}
-    ?>
+?>
 
       <li><span class="lemma" lang="el"><?=$result[$count]['Word']?></span> <span class="gr" lang="el"><?=$result[$count]['Ew']?></span>: <i><?=$result[$count]['Latin']?></i> <?=$result[$count]['Expl']?></li>
 
-    <?php
+<?php
         $count++;
       } while ($count % MAX !== 0);
-    ?>
+?>
   </ul>
 
   <hr>
 
   <div class="pages">
-  <?php
-  //リンクをクリックすると次の検索結果を規定件数(=MAX)表示
-  //生成したページ番号をpageという名前のGET情報として渡す
-    for ($i=0; $i < ($total / MAX) ; $i++) {
-  ?>
+<?php
+    //リンクをクリックすると次の検索結果を規定件数(=MAX)表示
+    //生成したページ番号をpageという名前のGET情報として渡す
+      for ($i=0; $i < ($total / MAX) ; $i++) {
+?>
     <a href="search.php?opt=<?=$option?>&fld=<?=$field?>&kw=<?=$keyword?>&page=<?=$i?>"><?=$i+1?></a>
-  <?php
-    }
-    ?>
+<?php
+      }
+      ?>
   </div>
-    <?php
+<?php
 
 
-  } catch (PDOException $e) {
-    print "Error: {$e->getMessage()}";
+    } catch (PDOException $e) {
+      print "Error: {$e->getMessage()}";
+    }
   }
-
 
 ?>
 
