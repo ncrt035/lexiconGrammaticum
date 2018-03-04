@@ -4,15 +4,16 @@ require_once 'betacode2greek.php';
 require_once 'cfg/dbManager.php';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta content="Lexicon Grammaticum Graeco-Iaponicum ギリシア語文法用語辞典" property="og:description">
-  <meta content="https://lggi.stromateis.info/search.php" property="og:url">
-  <meta content="Lexicon Grammaticum Graeco-Iaponicum" property="og:site_name">
-  <meta content="Search | Lexicon Grammaticum Graeco-Iaponicum" property="og:title">
-  <meta content="https://lggi.stromateis.info/img/card01.jpg" property="og:image">
-  <meta content="summary" property="twitter:card">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@ncrt035">
+  <meta property="og:description" content="Lexicon Grammaticum Graeco-Iaponicum ギリシア語文法用語辞典">
+  <meta property="og:url" content="https://lggi.stromateis.info/search.php">
+  <meta property="og:site_name" content="Lexicon Grammaticum Graeco-Iaponicum">
+  <meta property="og:title" content="Search | Lexicon Grammaticum Graeco-Iaponicum">
+  <meta property="og:image" content="https://lggi.stromateis.info/img/card01.jpg">
 <title>Search | Lexicon Grammaticum Graeco-Iaponicum</title>
 <link href="main.css" rel="stylesheet" media="all">
 </head>
@@ -164,7 +165,6 @@ require_once 'cfg/dbManager.php';
     for ($i=0; $i < ($total / MAX) ; $i++) {
   ?>
     <a href="search.php?opt=<?=$option?>&fld=<?=$field?>&kw=<?=$keyword?>&page=<?=$i?>"><?=$i+1?></a>
-
   <?php
     }
     ?>
