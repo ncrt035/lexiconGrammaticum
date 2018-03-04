@@ -90,11 +90,11 @@ span.abbrev{
 
 /*For Greek letters*/
 span.gr{
-	font-family: "New Athena Unicode", "Times New Roman", serif;
+	font-family: "New Athena Unicode", "Times New Roman", "Gentium", "Liberation Serif", serif;
 }
 
 span.lemma{
-	font-family: "New Athena Unicode", "Times New Roman", serif;
+	font-family: "New Athena Unicode", "Times New Roman", "Gentium", "Liberation Serif", serif;
 	font-weight: bold;
 }
 
