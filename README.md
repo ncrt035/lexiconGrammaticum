@@ -25,6 +25,7 @@ Comments and corrections are welcome! Please leave a comment or create an issue,
 - *LSJ* = *A Greek-English Lexicon,* compiled by Liddell, H.G., and Scott, R., revised and augmented throughout by Jones, H.S., Oxford: Clarendon Press, (9th ed. 1940, new supplement added 1996).
 - Montanari, F. (2013, 3a ed.), *Vocabolario della lingua greca*, Torino: Loescher.
 - Schad, S. (2007), *A Lexicon of Latin Grammatical Terminology,* Pisa/Roma: Fabrizio Serra.
+- Sophocles, A.E. (1914), *Greek Lexicon of the Roman and Byzantine Periods (from B.C. 146 to A.D. 1100),* Harvard University Press.
 
 ## Contact
 [Website](https://www.stromateis.info) [Github](https://github.com/ncrt035) [Mastodon](https://gnosia.info/@ncrt035) [Twitter](https://twitter.com/ncrt035)
