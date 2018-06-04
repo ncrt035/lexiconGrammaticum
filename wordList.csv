@@ -7,7 +7,7 @@ Id,Word,Ew,Latin,Expl
 6,ἀδιάβατος,ον,,?
 7,ἀδιαβίβαστος,ον,intransitivus,"自動詞の．<span class=""author"">Apoll. Dysc.</span> <span class=""title"">Synt.</span> 286.6."
 8,ἀδιαίρετος,ον,,"分かたれない，一体となった，<span class=""gr"" lang=""el"">διαίρεσις</span>のない．"
-9,ἀδιάπταιστος,ον,,?
+9,ἀδιάπταιστος,ον,,"間違いのない，正しい（=<span class=""gr"" lang=""el"">ἀδιάπτωτος</span>）<span class=""gr"" lang=""el"">ἀνάγνωσίς ἐστι ποιημάτων ἢ συγγραμμάτων ἀδιάπτωτος προφορά] ... τὸ δὲ ἀδιάπτωτος ἐστὶν ἀδιάπταιστος</span> <span class=""author"">Sch. Dion. Thr.</span> 171.18-19."
 10,ἀδιάπτωτος,ον,,"<span class=""subd"">1</span> 間違いのない，正しい．<span class=""subd"">2</span> 正しく格を用いる．<span class=""subd"">3</span> 格変化のない，不変化の．<span class =""gr"" lang=""el"">ὄφελον κανών ἐστιν ὁ λέγων, ὅτι τὸ ὄφελον ἀδιάπτωτόν ἐστι ἀπαρεμφάτῳ συντασσόμενον, καὶ οὐκ ἄλλῃ τινὶ ἐγκλίσει.</span> <span class=""author"">Lex.</span> <span class=""title"">EM.</span> 643.48."
 11,ἀδιάστατος,ον,,"（二重母音の<span class=""gr"" lang=""el"">ι</span>について）分離できない． <span class=""author"">Apoll. Dysc.</span> <span class=""title"">Pron.</span> 86.21."
 12,ἀδιάστολος,ον,,
@@ -292,7 +292,7 @@ Id,Word,Ew,Latin,Expl
 291,ἀπότασις,εως ἡ,,
 292,ἀποτείνω,,,
 293,ἀποτελεστικός,ή όν,,（接続詞が）帰結文を表す．
-294,ἀποτελεσμός,οῦ ὁ,,?
+294,ἀποτελεσμός,οῦ ὁ,,"目的文，目的節．<span class=""gr"" lang=""el"">«γράφω» ὁρισμός, «ἐὰν γράφω» δισταγμός, «ἵνα γράφω» ἀποτελεσμός, «ὅτι γράφω» αἰτιολογία, «καὶ γράφω» βεβαίωσις.</span> <span class=""author"">Sch. Dion. Thr.</span> 284.2-3."
 295,ἀποτελέω,,,
 296,ἀποτερματίζω,,,
 297,ἀποφαίνομαι,,,
@@ -308,7 +308,7 @@ Id,Word,Ew,Latin,Expl
 307,ἀριθμητικός,ή όν,,"<span class=""abbrev"">n. subst.</span> <span class=""gr"" lang=""el"">ἀριθμητικόν (ὄνομα)</span> 基数詞．"
 308,ἀριθμός,οῦ ὁ,numerus,数．
 309,Ἀριστάρχειος,α ον,,アリスタルコスの．
-310,ἀρκτικός,ή όν,,
+310,ἀρκτικός,ή όν,inchoativus,"起動的な，始動的な．sunt quaedam verba inchoativa appellantur, <span class=""gr"" lang=""el"">ἀρκτικά</span> quaeque rem modo inchoatam et futuram significant, uelut horresco, id est incipio horrere. <span class=""author"">Char.</span> 329.23. "
 311,ἁρμογή,ῆς ἡ,,
 312,ἄρνησις,εως ἡ,,
 313,ἀρνητικός,ή όν,,
